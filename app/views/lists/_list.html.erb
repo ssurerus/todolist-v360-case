@@ -1,0 +1,38 @@
+<% color_classes = {
+  "green-lemon" => "bg-green-lemon hover:bg-green-lemon/85 text-white",
+  "vibrant-purple" => "bg-vibrant-purple hover:bg-vibrant-purple/85 text-white",
+  "vibrant-blue" => "bg-vibrant-blue hover:bg-vibrant-blue/85 text-white",
+  "vibrant-yellow" => "bg-vibrant-yellow hover:bg-vibrant-yellow/85 text-white",
+  "coral" => "bg-coral hover:bg-coral/85 text-white",
+  "black" => "bg-black hover:bg-black/85 text-white"
+} %>
+<% color_class = color_classes.fetch(list.color, "bg-slate-100 text-slate-900") %>
+
+<%= turbo_frame_tag "list_#{list.id}", class:"flex flex-col w-full" do %>
+<div class="flex flex-row w-full justify-between items-center border rounded-lg relative min-h-[76px] <%= color_class %>">
+<%= link_to list_path(list), class: "flex flex-row w-full h-full items-center gap-6 px-5 py-4", data: { turbo_stream: true, action: "click->sidebar#closeOnMobile"} do %>
+        <%= image_tag "hamburger-white.svg", class: "h-3 w-3 object-cover" %>
+        <div class="flex flex-col gap-0.5 lg:gap-2">
+                <span class="text-base lg:text-lg leading-4 lg:leading-4"> <%= list.title %> </span>
+                <span class="text-xs lg:text-base leading-4 lg:leading-4"><%= list.description %></span>
+                <span class="text-[10px] lg:text-sm leading-2 lg:leading-3">
+                        <%= "#{list.items.count} #{list.items.count == 1 ? "tarefa" : "tarefas"}" %>
+                </span>
+        </div>      
+<%end%>
+
+        <div class="flex flex-col justify-between h-full py-3 absolute right-4 ">
+                <%= link_to edit_list_path(list),
+                        class: "flex flex-row hover:scale-115 duration-200 transition-all",
+                        data: { turbo_frame: "modal_frame" } do%>
+                        <%= image_tag "pencil.svg", class: "h-3.5 w-3.5 object-cover" %>
+                <%end%>
+                <%= button_to list_path(list), 
+                        method: :delete, form: {data:{ turbo_confirm: "Tem certeza que deseja excluir essa lista?", turbo_stream: true }},
+                        class: "flex flex-row 
+                        hover:cursor-pointer hover:scale-115 duration-200 transition-all" do%>
+                        <%= image_tag "close.svg", class: "h-3.5 w-3.5 object-cover text-white" %>
+                <%end%>
+        </div>
+</div>
+<% end %>

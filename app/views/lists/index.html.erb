@@ -1,0 +1,19 @@
+<div class="flex flex-col w-full justify-center items-center pt-10 gap-4">
+
+    <section class="flex flex-col justify-center items-center gap-4">
+        <h1 class="text-2xl">Listas</h1>
+
+        <%= link_to "Nova Lista",
+            new_list_path,
+            class: "py-2 px-4 
+                    rounded-md 
+                    bg-stone-800 hover:bg-stone-700 text-white
+                    hover:scale-115 transition-all duration-500" 
+        %>
+    </section>
+
+    <section class="flex flex-col gap-4 w-4/12">
+        <%= render @lists %>
+    </section>
+
+</div>

@@ -1,0 +1,73 @@
+<%= turbo_frame_tag "item_#{item.id}", class: "flex flex-col h-full w-full relative " do %>
+<%case item.status
+  when "backlog"
+      next_status_icon = "play.svg"
+      next_status_label = "Iniciar Tarefa"
+      next_status = "in_progress"
+  when "in_progress"
+      next_status_icon = "completed.svg"
+      next_status_label = "Concluir Tarefa"
+      next_status = "done"
+  end   
+%>
+
+
+<div class="flex flex-col w-full gap-2 py-4 px-6 pr-4 bg-item-bg rounded-2xl h-[154px]">
+      <div class="flex flex-row w-full h-full
+                  justify-between items-start
+                  ">
+            <div class="flex flex-col  whitespace-nowrap h-full w-full justify-between items-start">
+                  <h3 class="text-lg"><%= item.title %></h3>
+                  <span class="text-sm"><%= item.description %></span>
+                  <span class="flex flex-row items-center justify-center gap-1.5">
+                        <% if item.due_at !=nil %>
+                              <%= image_tag "alarmclock.svg", class: "h-4.5 w-4.5 object-fill" %>
+                              <%= l(item.due_at, format: "%d/%-m/%Y - %H:%M")%>
+                        <%end%>
+                  </span>
+            </div>
+
+
+            <div class="flex flex-col gap-3 w-full
+                        justify-between items-end">
+
+                  <%= render "items/status_badge", item: item %>
+
+                  <div class="flex flex-col justify-center gap-4 ">
+                        <%= link_to [:edit, list, item],
+                                    class: "flex flex-row hover:scale-115 duration-200 transition-all
+                                                rounded",
+                                          data: { turbo_frame: "modal_frame" } do%>
+                              <%= image_tag "pencil-black.svg", class: "h-4.5 w-4.5 object-cover" %>
+                        <%end%>
+                        <%= button_to [list, item],
+                                    method: :delete,
+                                    form: {data:{ turbo_confirm: "Tem certeza que deseja excluir essa tarefa?", turbo_stream: true }},
+                                    class: "flex flex-row 
+                                                hover:cursor-pointer hover:scale-115 duration-200 transition-all
+                                                rounded" do%>
+                              <%= image_tag "close-black.svg", class: "h-4.5 w-4.5 object-cover text-white" %>
+                        <%end%>
+                  </div>
+            </div>
+      </div>
+
+      <div class="flex flex-col">
+      <%  if item.status != "done"%>
+            <%= button_to list_item_path(list, item),
+                  method: :patch,
+                  params: { item: { status: next_status } },
+                  data: { turbo_stream: true },
+                  class: " flex flex-row gap-2 
+                        w-1/2 items-center justify-center 
+                        hover:bg-text-primary/20
+                        border border-text-primary rounded-xl 
+                        px-2 py-1 mx-auto 
+                        hover:cursor-pointer" do%>
+                  <%= image_tag next_status_icon, class: "h-3 w-3 object-cover" %>
+                  <span class="text-xs"><%=next_status_label %></span>
+            <%end%>
+      <%end%>
+      </div>
+</div>
+<% end %>

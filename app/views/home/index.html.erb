@@ -1,0 +1,21 @@
+<div class="flex flex-col 
+            justify-end md:justify-center items-center gap-3
+            max-w-[1440px] w-full h-screen py-20
+            bg-no-repeat">
+
+  <%= image_tag "bg-home.png", class: "h-[26rem] md:h-[50vh] object-cover" %>
+
+  <div class="flex flex-col px-6 gap-4 justify-center items-start md:items-center w-full">
+    <h1 class="text-4xl/[90%] font-medium">Suas tarefas <br class="md:hidden"/> em um só lugar.</h1>
+    <h2 class="text-base/[90%] font-normal">Crie listas, defina prazos e <br class="md:hidden"/> acompanhe seu progresso.</h2>  
+    <%= link_to "Criar minha primeira lista", app_path, 
+        class: "flex flex-row 
+                justify-center items-center self-center
+                w-[305px] py-[0.875rem] mt-4
+                rounded-3xl 
+                bg-vibrant-purple hover:scale-105 transition-all duration-500 text-white 
+                "
+    %>
+  </div>
+
+</div>

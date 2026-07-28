@@ -1,0 +1,55 @@
+<div class="absolute
+            flex flex-col 
+            w-full h-full top-0 left-0
+            justify-center items-center
+            bg-black/30 z-99">
+<%= simple_form_for [list, item], 
+    html: { class: "flex flex-col 
+                    px-6 py-6 gap-5 w-full lg:w-[452px]
+                    items-center bg-white
+                    border border-gray-500/30 rounded-3xl" } do |f| %>
+
+  <% if item.persisted?  
+        title = "Editar Tarefa"
+        submitBtnText = "Confirmar"
+      else
+        title = "Criar Nova Tarefa" 
+        submitBtnText = "Criar Tarefa"
+      end
+  %>
+                
+  <div class="flex flex-row justify-between items-center w-full">
+    <h2 class="text-xl font-bold"><%= title %></h2>
+    <%= link_to close_modal_path, data: { turbo_stream: true } do %>
+      <%= image_tag "close-black.svg", class: "p-0 h-5 w-5 object-fill text-black fill-black" %>
+    <% end %>
+  </div>
+
+  <div class="flex flex-col justify-center items-center w-full gap-3">
+    <%= f.input :title,
+                placeholder: (list.errors[:title].any? ? "Campo Obrigatório" : "Insira o nome da lista"),
+                label: "Nome da tarefa *"
+                %>
+
+    <%= f.input :description, 
+                placeholder: "Insira uma breve descrição"  %>
+    
+    <%= f.input :due_at, html5: true, input_html:{class:"items-center justify-center"} %>
+  </div>
+
+  <div class="flex flex-row w-full items-center justify-between gap-2">
+    <%= link_to "Cancelar",
+    close_modal_path,
+    data: { turbo_stream: true },
+    class: "flex flex-col 
+            items-center justify-center 
+            px-4.5 py-2 rounded-lg hover:bg-gray-300
+            font-semibold text-xl w-1/2 border border-light-gray-2/50" %>
+
+    <%= f.submit submitBtnText, class: "flex flex-col 
+            items-center justify-center 
+            px-4.5 py-2 rounded-lg 
+            font-semibold text-white text-xl w-1/2 bg-text-primary border hover:cursor-pointer hover:bg-text-primary/70" %>
+  </div>
+<% end %>
+</div>

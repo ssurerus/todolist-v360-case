@@ -1,0 +1,63 @@
+<div class="flex flex-col w-full items-center justify-center h-screen bg-[url('/bglogin.jpg')] bg-contain bg-top bg-no-repeat">
+
+<%= simple_form_for(resource, as: resource_name, html: { class: "flex flex-col 
+                    px-6 py-6 gap-5 w-full lg:w-[452px]
+                    items-center bg-white shadow-lg shadow-black/30
+                    border border-gray-500/30 rounded-3xl" },
+                    url: registration_path(resource_name)) do |f| %>
+<%
+  errors = f.object.errors.details
+  has_error = ->(field, type) { Array(errors[field]).any? { |e| e[:error] == type } }
+  password_blank = has_error.call(:password, :blank)
+  passconfirm_blank = has_error.call(:password_confirmation, :blank)
+%>
+
+  <h2 class="text-2xl font-semibold">Criar Nova Conta</h2>
+  <% if f.object.errors.any? %>
+    <h3 class="text-red-400 text-sm flex flex-col text-center">
+      <% if has_error.call(:password, :too_short) %>
+        <span>A senha deve ter no minimo <%= @minimum_password_length %> caracteres.</span>
+      <% end %>
+      <% if has_error.call(:email, :taken) %>
+        <span>Este email ja esta em uso.</span>
+      <% end %>
+      <% if has_error.call(:password_confirmation, :confirmation) %>
+        <span>As senhas nao correspondem.</span>
+      <% end %>
+    </h3>
+  <% end %>
+  <div class="flex flex-col w-full gap-4">
+    <%= f.input :email,
+                required: true,
+                input_html: { autocomplete: "email" },
+                placeholder: (has_error.call(:email, :blank) ? "Campo obrigatorio" : "Insira um email") %>
+    <%= f.input :password,
+                label: "Senha",
+                required: true,
+                hint: ("Minimo de #{@minimum_password_length} caracteres" if @minimum_password_length),
+                input_html: { autocomplete: "new-password" },
+                placeholder: (password_blank ? "Campo obrigatorio" : "Insira uma senha") %>
+
+    <%= f.input :password_confirmation,
+                label: "Confirme a senha",
+                required: true,
+                input_html: { autocomplete: "new-password" },
+                placeholder: (passconfirm_blank ? "Campo obrigatorio" : "Confirme sua senha") %>
+  </div>
+
+  <div class="flex flex-row items-center justify-between w-full gap-4">
+    <%= f.button :submit, "Registre-se", class: "flex flex-col 
+            items-center justify-center 
+            px-4.5 py-2 rounded-lg 
+            font-semibold text-white w-1/2 text-xl bg-text-primary border hover:cursor-pointer hover:bg-text-primary/70" %>
+    <%- if controller_name != 'sessions' %>
+      <%= link_to "Log In", new_session_path(resource_name), class: "flex flex-col 
+            items-center justify-center 
+            px-4.5 py-2 rounded-lg hover:bg-gray-300
+            font-semibold text-xl w-1/2 border border-light-gray-2/50" %>
+    <% end %>
+  </div>
+
+<% end %>
+
+</div>

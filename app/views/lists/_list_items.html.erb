@@ -1,0 +1,27 @@
+<div class="flex flex-col items-center gap-4">
+    
+    <% if @items.present? %>
+      <div class="flex flex-row justify-between items-center w-full lg:max-w-[900px] px-2 ">
+        <h3 class="text-base font-light text-light-gray mx-auto">
+        <%= "#{@items.count} #{@items.count == 1 ? "tarefa" : "tarefas"}"%>
+        </h3>
+
+        <%= link_to new_list_item_path(@list),
+        class: "flex flex-col 
+        w-10 h-10 self-center justify-center items-center 
+        rounded-full bg-light-gray hover:bg-black hover:scale-115 transition-all duration-300
+        text-2xl text-white",
+        data: { turbo_frame: "modal_frame" } do %>
+            <span class="leading-0 -mt-0.5">+</span>
+        <% end %>
+      </div>
+    <%else%>
+      <%= render partial: "lists/items_empty_state" %>
+    <%end%>
+
+
+    <%= turbo_frame_tag "items", class:"flex flex-col gap-4 w-full lg:max-w-[900px] justify-start max-h-[80vh] scrollbar-thin overflow-y-auto pr-2 pb-4" do %>
+          <%= render @items, list: @list %>
+    <% end %>
+
+</div>

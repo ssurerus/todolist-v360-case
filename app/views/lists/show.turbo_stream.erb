@@ -1,0 +1,8 @@
+<%= turbo_stream.update "navbar_title" do %>
+  <span class="text-lg font-bold"><%= @list.title %></span>
+  <p class="text-xs opacity-70"><%= @list.description %></p>
+<% end %>
+
+<%= turbo_stream.update "list_items" do %>
+    <%= render "lists/list_items" %>
+<% end %>

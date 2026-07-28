@@ -1,0 +1,11 @@
+<h3 class="text-light-gray-2 text-2xl self-center text-center leading-5">
+    Nenhuma tarefa <br/> encontrada.
+</h3>
+<%= link_to new_list_item_path(@list),
+class: "flex flex-col 
+w-10 h-10 self-center justify-center items-center 
+rounded-full bg-light-gray hover:bg-black hover:scale-115 transition-all duration-300
+text-2xl text-white",
+data: { turbo_frame: "modal_frame" } do %>
+    <span class="leading-0 -mt-0.5">+</span>
+<% end %>

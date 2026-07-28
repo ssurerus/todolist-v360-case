@@ -1,0 +1,20 @@
+<%= turbo_stream.remove "list_#{@list.id}" %>
+
+<% if current_list_id == @list.id %>
+  <%= turbo_stream.update "navbar_title" do %>
+    <span class="text-lg font-bold">TodoList</span>
+    <p class="text-xs opacity-70">Selecione uma lista</p>
+  <% end %>
+
+  <%= turbo_stream.update "list_items", "" %>
+<% end %>
+
+<% if lists.blank? %>
+  <%= turbo_stream.update "lists" do %>
+    <%= render partial: "lists/empty_state" %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  <%= render "shared/flash" %>
+<% end %>

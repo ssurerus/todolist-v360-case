@@ -1,0 +1,33 @@
+<div class="flex flex-col justify-start h-screen w-full relative " data-controller="sidebar">
+  
+  <nav class="fixed top-0 left-0 z-10
+              flex flex-row box-border
+              w-full h-24 px-10 py-8 
+              bg-white">
+    <button data-action="click->sidebar#toggle" class="hover:cursor-pointer hover:shadow-lg shadow-black/30 transition-all duration-200 ">
+      <%= image_tag "hamburger.svg", class: "p-0 h-8 w-8 object-fill" %>
+    </button>
+
+
+    <div id="navbar_title" data-sidebar-target="title" class="flex flex-col ml-10 lg:ml-[440px]">
+      <span class="text-lg font-bold">TodoList</span>
+      <p class="text-xs opacity-70">Selecione uma lista</p>
+    </div>
+  </nav>
+
+  <%= render "sidebar" %>
+
+  <section data-sidebar-target="itemsContainer" 
+           class="flex flex-col
+                  items-center justify-start 
+                  h-full w-full pt-32 lg:pl-[440px] bg-light-gray-2/30 overflow-hidden min-h-0 ">
+
+      <%= turbo_frame_tag "list_items", class:"w-full px-4 h-full" do %>
+    
+      <% end %>
+  </section>
+
+  <%= turbo_frame_tag "modal_frame" do %>
+    
+  <% end %>
+</div>

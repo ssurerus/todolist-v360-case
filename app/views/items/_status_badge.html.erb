@@ -1,0 +1,28 @@
+<% status = item.status %>
+<% overdue = item.due_at.present? && item.due_at < Time.current %>
+<% show_overdue = overdue && status != "done" %>
+<% badge_classes = {
+  "backlog" => "bg-slate-200 text-slate-700 text-black",
+  "in_progress" => "bg-vibrant-yellow/50 text-amber-800 text-black",
+  "done" => "bg-task-completed text-emerald-800 text-black",
+  "overdue" => "bg-vibrant-red text-rose-800 text-white"
+} %>
+<% icons= {
+  "backlog" => "clock.svg",
+  "in_progress" => "clock.svg",
+  "done" => "completed.svg",
+  "overdue" => "timer.svg"
+}
+%>
+<% label = {
+  "backlog" => "A Iniciar",
+  "in_progress" => "Em andamento",
+  "done" => "Concluido",
+  "overdue" => "Em Atraso"
+} %>
+<% key = show_overdue ? "overdue" : status %>
+
+<span class="flex box-border flex-nowrap flex-row items-center gap-1 whitespace-nowrap px-2 py-1 rounded-full text-xs font-thin <%= badge_classes.fetch(key, "bg-slate-200 text-slate-700") %>">
+  <%= image_tag icons.fetch(key, "clock.svg"), class: "h-4 w-4 object-fill text-white" %>
+  <%= label.fetch(key, key.to_s.humanize) %>
+</span>

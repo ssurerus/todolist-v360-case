@@ -1,0 +1,38 @@
+<div class="flex flex-col w-full items-center justify-center h-screen bg-[url('/bglogin.jpg')] bg-contain bg-top bg-no-repeat">
+  <%= simple_form_for(resource, as: resource_name,
+            html: { class: "flex flex-col
+                    px-6 py-6 gap-5 w-full lg:w-[452px]
+                    items-center bg-white shadow-lg shadow-black/30
+                    border border-gray-500/30 rounded-3xl" },
+            url: password_path(resource_name)) do |f| %>
+
+    <%
+      errors = f.object.errors.details
+      has_error = ->(field, type) { Array(errors[field]).any? { |e| e[:error] == type } }
+    %>
+
+    <h2 class="text-2xl font-semibold">Recuperar senha</h2>
+    <p class="text-sm text-light-gray-2 text-center">
+      Informe seu email para receber o link de redefinicao.
+    </p>
+
+    <div class="flex flex-col w-full gap-4">
+      <%= f.input :email,
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "email" },
+                  placeholder: (has_error.call(:email, :blank) ? "Campo obrigatorio" : "Insira seu email") %>
+    </div>
+
+    <div class="flex flex-row items-center justify-between w-full gap-4">
+      <%= f.button :submit, "Enviar link", class: "flex flex-col
+            items-center justify-center
+            px-4.5 py-2 rounded-lg
+            font-semibold text-white w-1/2 text-xl bg-text-primary border hover:cursor-pointer hover:bg-text-primary/70" %>
+      <%= link_to "Voltar", new_session_path(resource_name), class: "flex flex-col
+            items-center justify-center
+            px-4.5 py-2 rounded-lg hover:bg-gray-300
+            font-semibold text-xl w-1/2 border border-light-gray-2/50" %>
+    </div>
+  <% end %>
+</div>

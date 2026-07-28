@@ -1,0 +1,41 @@
+<div data-sidebar-target="panel"
+     class="absolute top-0 left-0 z-99
+            flex flex-col sidebar
+            justify-start items-start
+            w-[80vw] lg:w-[440px] h-full
+            bg-white shadow-lg shadow-black/30
+            px-6 py-6.5 lg:px-8 lg:py-9 gap-4
+            transform
+            transition-transform duration-300 ease-in-out">
+    <button data-action="click->sidebar#toggle " class="self-end hover:cursor-pointer">
+        <%= image_tag "close-black.svg", class: "p-0 h-6 w-7 object-fill text-black fill-black" %>
+    </button>
+    <h4 class="text-lg">Suas Listas</h4>
+    <%= turbo_frame_tag "lists", class: "w-full max-h-[calc(604px)] pr-1 flex flex-col items-center justify-start gap-2 overflow-y-auto scrollbar-thin" do %>
+        <% if @lists.present? %>
+            <%=render @lists%>
+        <% else %>
+            <%= render partial: "lists/empty_state" %>
+        <% end %>
+    <% end %>
+    <%= link_to new_list_path,
+            class: "flex flex-col 
+        w-10 h-10 self-center justify-center items-center 
+        rounded-full bg-light-gray hover:bg-black hover:scale-115 transition-all duration-300
+        text-2xl text-white py-2",
+            data: { turbo_frame: "modal_frame" } do %>
+        <span>+</span>
+    <% end %>
+
+    <div class="flex flex-row w-full justify-between mt-auto items-center ">
+        <div>
+            <p class="text-sm mb-1">Logado como <br/><strong><%= current_user.email %></strong></p>
+        </div>
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, 
+            class: "flex flex-row items-center hover:bg-light-gray-2/30 rounded-lg px-4 py-2" do%>
+           <%= image_tag "logout.svg", class: "p-0 h-6 w-7 object-fill text-black fill-black" %> <p>Sair</p>
+        <%end%>
+    </div>
+
+
+</div>
