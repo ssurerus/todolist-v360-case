@@ -23,6 +23,7 @@ module Todolist
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.i18n.default_locale = :'pt-BR'
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
