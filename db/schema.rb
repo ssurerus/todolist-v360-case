@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_28_034940) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_28_041222) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.datetime "due_at"
+    t.uuid "list_id", null: false
+    t.integer "status", default: 0, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id", "status"], name: "index_items_on_list_id_and_status"
+    t.index ["list_id"], name: "index_items_on_list_id"
+    t.index ["status"], name: "index_items_on_status"
+    t.check_constraint "status = ANY (ARRAY[0, 1, 2])", name: "items_status_check"
+  end
 
   create_table "lists", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "color", default: "green-lemon", null: false
@@ -40,5 +54,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_28_034940) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "items", "lists"
   add_foreign_key "lists", "users"
 end
