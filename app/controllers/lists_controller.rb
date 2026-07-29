@@ -20,7 +20,6 @@ class ListsController < ApplicationController
   end
 
   def create
-    @view_status = session[:lists_view] || "active"
     @list = current_user.lists.new(list_params)
     if @list.save
       respond_to do |format|
@@ -56,10 +55,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.turbo_stream {
         flash.now[:notice] = "Lista removida com sucesso."
-        render :destroy, locals: {
-          lists: current_user.lists.order(created_at: :desc),
-          current_list_id: current_list_id
-        }
+        render :destroy, locals: { current_list_id: current_list_id }
       }
       format.html { redirect_to lists_path, notice: "Lista removida com sucesso." }
     end
@@ -76,6 +72,7 @@ class ListsController < ApplicationController
   end
 
   def unarchive
+    @was_current = session[:current_list_id] == @list.id
     @list.active!
     respond_to do |format|
       format.turbo_stream { flash.now[:notice] = "Lista desarquivada com sucesso." }
@@ -88,6 +85,7 @@ class ListsController < ApplicationController
   def set_list
     @list = current_user.lists.find(params[:id])
   end
+
 
   def list_params
     params.require(:list).permit(:id, :title, :description, :status, :color)

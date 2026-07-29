@@ -5,13 +5,12 @@
     <span class="text-lg font-bold">TodoList</span>
     <p class="text-xs opacity-70">Selecione uma lista</p>
   <% end %>
-
   <%= turbo_stream.update "list_items", "" %>
 <% end %>
 
-<% if lists.blank? %>
-  <%= turbo_stream.update "lists_cards" do %>
-    <%= render partial: "lists/empty_state" %>
+<% if current_user.lists.where(status: @list.status).none? %>
+  <%= turbo_stream.update "#{@list.status}_lists" do %>
+    <%= render "lists/empty_state", status: @list.status %>
   <% end %>
 <% end %>
 

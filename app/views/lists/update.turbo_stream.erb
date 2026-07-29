@@ -4,8 +4,7 @@
 
 <% if @current_list_id == @list.id %>
   <%= turbo_stream.update "navbar_title" do %>
-    <span class="text-lg font-bold"><%= @list.title %></span>
-    <p class="text-xs opacity-70"><%= @list.description %></p>
+    <%= render "lists/navbar_title", list: @list %>
   <% end %>
 
 

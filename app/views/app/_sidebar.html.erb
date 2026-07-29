@@ -20,11 +20,11 @@
                 data: { turbo_frame: "lists" },
                 class: "text-sm px-3 py-1 rounded-full transition-all #{@status == "archived" ? "bg-text-primary text-white" : "text-light-gray-2 hover:bg-light-gray-2/20"}" %>
         </div>
-        <div id="lists_cards" class="flex flex-col items-center justify-start w-full gap-2">
+        <div id="<%= @status %>_lists" class="flex flex-col items-center justify-start w-full gap-2">
             <% if @lists.present? %>
                 <%=render @lists%>
             <% else %>
-                <%= render partial: "lists/empty_state" %>
+                <%= render "lists/empty_state", status: @status %>
             <% end %>
         </div>
     <% end %>

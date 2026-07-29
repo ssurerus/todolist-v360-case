@@ -9,6 +9,12 @@
   <%= turbo_stream.update "list_items", "" %>
 <% end %>
 
+<% if current_user.lists.active.none? %>
+  <%= turbo_stream.update "active_lists" do %>
+    <%= render "lists/empty_state", status: "active" %>
+  <% end %>
+<% end %>
+
 <%= turbo_stream.update "flash" do %>
   <%= render "shared/flash" %>
 <% end %>

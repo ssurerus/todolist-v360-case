@@ -8,13 +8,13 @@
 } %>
 <% color_class = color_classes.fetch(list.color, "bg-slate-100 text-slate-900") %>
 
-<%= turbo_frame_tag "list_#{list.id}", class:"flex flex-col w-full" do %>
+<%= turbo_frame_tag "list_#{list.id}", class:"flex flex-col w-full " do %>
 <div class="flex flex-row w-full justify-between items-center border rounded-lg relative min-h-[76px] <%= color_class %>">
 <%= link_to list_path(list), class: "flex flex-row w-full h-full items-center gap-6 px-5 py-4", data: { turbo_stream: true, action: "click->sidebar#closeOnMobile"} do %>
         <%= image_tag "hamburger-white.svg", class: "h-3 w-3 object-cover" %>
         <div class="flex flex-col gap-0.5 lg:gap-2">
                 <span class="text-base lg:text-lg leading-4 lg:leading-4"> <%= list.title %> </span>
-                <span class="text-xs lg:text-base leading-4 lg:leading-4"><%= list.description %></span>
+                <span class="block min-h-4 text-xs lg:text-base leading-4 lg:leading-4"><%= list.description %></span>
                 <span class="text-[10px] lg:text-sm leading-2 lg:leading-3">
                         <%= "#{list.items.count} #{list.items.count == 1 ? "tarefa" : "tarefas"}" %>
                 </span>
