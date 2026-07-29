@@ -49,6 +49,7 @@ class ListsController < ApplicationController
   end
 
   def destroy
+    current_list_id = session[:current_list_id]
     @list.destroy
     session[:current_list_id] = nil if session[:current_list_id] == @list.id
     respond_to do |format|
@@ -56,7 +57,7 @@ class ListsController < ApplicationController
         flash.now[:notice] = "Lista removida com sucesso."
         render :destroy, locals: {
           lists: current_user.lists.order(created_at: :desc),
-          current_list_id: session[:current_list_id]
+          current_list_id: current_list_id
         }
       }
       format.html { redirect_to lists_path, notice: "Lista removida com sucesso." }
