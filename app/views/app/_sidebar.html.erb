@@ -12,15 +12,25 @@
     </button>
     <h4 class="text-lg">Suas Listas</h4>
     <%= turbo_frame_tag "lists", class: "w-full max-h-[calc(604px)] pr-1 flex flex-col items-center justify-start gap-2 overflow-y-auto scrollbar-thin" do %>
-        <% if @lists.present? %>
-            <%=render @lists%>
-        <% else %>
-            <%= render partial: "lists/empty_state" %>
-        <% end %>
+        <div class="flex flex-row w-full gap-2 mb-1">
+            <%= link_to "Ativas", app_path(status: "active"),
+                data: { turbo_frame: "lists" },
+                class: "text-sm px-3 py-1 rounded-full transition-all #{@status == "archived" ? "text-light-gray-2 hover:bg-light-gray-2/20" : "bg-text-primary text-white"}" %>
+            <%= link_to "Arquivadas", app_path(status: "archived"),
+                data: { turbo_frame: "lists" },
+                class: "text-sm px-3 py-1 rounded-full transition-all #{@status == "archived" ? "bg-text-primary text-white" : "text-light-gray-2 hover:bg-light-gray-2/20"}" %>
+        </div>
+        <div id="lists_cards" class="flex flex-col items-center justify-start w-full gap-2">
+            <% if @lists.present? %>
+                <%=render @lists%>
+            <% else %>
+                <%= render partial: "lists/empty_state" %>
+            <% end %>
+        </div>
     <% end %>
     <%= link_to new_list_path,
-            class: "flex flex-col 
-        w-10 h-10 self-center justify-center items-center 
+            class: "flex flex-col
+        w-10 h-10 self-center justify-center items-center
         rounded-full bg-light-gray hover:bg-black hover:scale-115 transition-all duration-300
         text-2xl text-white py-2",
             data: { turbo_frame: "modal_frame" } do %>

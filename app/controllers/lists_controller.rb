@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_list, only: [ :show, :edit, :update, :destroy, :archive, :unarchive ]
 
   def index
     @lists = current_user.lists.order(created_at: :desc)
@@ -20,6 +20,7 @@ class ListsController < ApplicationController
   end
 
   def create
+    @view_status = session[:lists_view] || "active"
     @list = current_user.lists.new(list_params)
     if @list.save
       respond_to do |format|
@@ -51,7 +52,7 @@ class ListsController < ApplicationController
   def destroy
     current_list_id = session[:current_list_id]
     @list.destroy
-    session[:current_list_id] = nil if session[:current_list_id] == @list.id
+    session[:current_list_id] = nil if current_list_id == @list.id
     respond_to do |format|
       format.turbo_stream {
         flash.now[:notice] = "Lista removida com sucesso."
@@ -61,6 +62,24 @@ class ListsController < ApplicationController
         }
       }
       format.html { redirect_to lists_path, notice: "Lista removida com sucesso." }
+    end
+  end
+
+  def archive
+    @was_current = session[:current_list_id] == @list.id
+    @list.archived!
+    session[:current_list_id] = nil if @was_current
+    respond_to do |format|
+      format.turbo_stream { flash.now[:notice] = "Lista arquivada com sucesso." }
+      format.html { redirect_to app_path, notice: "Lista arquivada com sucesso." }
+    end
+  end
+
+  def unarchive
+    @list.active!
+    respond_to do |format|
+      format.turbo_stream { flash.now[:notice] = "Lista desarquivada com sucesso." }
+      format.html { redirect_to app_path(status: "archived"), notice: "Lista desarquivada com sucesso." }
     end
   end
 

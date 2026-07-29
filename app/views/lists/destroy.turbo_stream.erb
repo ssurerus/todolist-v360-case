@@ -10,7 +10,7 @@
 <% end %>
 
 <% if lists.blank? %>
-  <%= turbo_stream.update "lists" do %>
+  <%= turbo_stream.update "lists_cards" do %>
     <%= render partial: "lists/empty_state" %>
   <% end %>
 <% end %>

@@ -60,6 +60,20 @@
     <%= hidden_field_tag :current_list_id, @current_list_id %>
   </div>
 
+  <% if list.persisted? %>
+    <div class="flex w-full justify-center">
+      <% if list.active? %>
+        <%= link_to "Arquivar lista", archive_list_path(list),
+            data: { turbo_method: :patch },
+            class: "text-sm text-light-gray hover:text-black underline hover:cursor-pointer" %>
+      <% else %>
+        <%= link_to "Desarquivar lista", unarchive_list_path(list),
+            data: { turbo_method: :patch },
+            class: "text-sm text-light-gray hover:text-black underline hover:cursor-pointer" %>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="flex flex-row w-full items-center justify-between gap-2">
     <%= link_to "Cancelar",
     close_modal_path,

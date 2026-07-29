@@ -1,0 +1,14 @@
+<%= turbo_stream.remove "list_#{@list.id}" %>
+<%= turbo_stream.update "modal_frame", "" %>
+
+<% if @was_current %>
+  <%= turbo_stream.update "navbar_title" do %>
+    <span class="text-lg font-bold">TodoList</span>
+    <p class="text-xs opacity-70">Selecione uma lista</p>
+  <% end %>
+  <%= turbo_stream.update "list_items", "" %>
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  <%= render "shared/flash" %>
+<% end %>

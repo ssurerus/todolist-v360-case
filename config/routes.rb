@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   get "/modal/close", to: "modals#close", as: :close_modal
 
   resources :lists do
+    member do
+      patch :archive
+      patch :unarchive
+    end
     resources :items, except: [ :index, :show ]
   end
 end

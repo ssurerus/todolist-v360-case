@@ -1,5 +1,7 @@
-<%= turbo_stream.prepend "lists", partial: "lists/list", locals: { list: @list } %>
-<%= turbo_stream.remove "lists_empty_state" %>
+<% if @view_status == "active" %>
+  <%= turbo_stream.prepend "lists_cards", partial: "lists/list", locals: { list: @list } %>
+  <%= turbo_stream.remove "lists_empty_state" %>
+<% end %>
 <%= turbo_stream.update "modal_frame", "" %>
 <%= turbo_stream.update "flash" do %>
   <%= render "shared/flash" %>
