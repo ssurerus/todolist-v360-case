@@ -18,7 +18,7 @@ class ItemTest < ActiveSupport::TestCase
   test "exige uma lista" do
     item = Item.new(title: "Solto")
     assert_not item.valid?
-    assert_includes item.errors[:list], "must exist"
+    assert_includes item.errors[:list], "é obrigatório(a)"
   end
 
   test "status enum: backlog -> in_progress -> done" do

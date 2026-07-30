@@ -13,13 +13,13 @@ class ListTest < ActiveSupport::TestCase
   test "exige titulo" do
     list = @user.lists.new(title: nil)
     assert_not list.valid?
-    assert_includes list.errors[:title], "can't be blank"
+    assert_includes list.errors[:title], "não pode ficar em branco"
   end
 
   test "exige um dono (user obrigatorio)" do
     list = List.new(title: "Sem dono")
     assert_not list.valid?
-    assert_includes list.errors[:user], "must exist"
+    assert_includes list.errors[:user], "é obrigatório(a)"
   end
 
   test "remove os itens ao ser destruida (dependent: :destroy)" do
